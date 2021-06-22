@@ -5,11 +5,11 @@ import * as viz from './scripts/viz.js'
 import * as tooltip from './scripts/tooltip.js'
 import * as legend from './scripts/legend.js'
 import * as preproc from './scripts/preprocess.js'
-import datepicker from 'js-datepicker'
+//import datepicker from 'js-datepicker'
 import d3Tip from 'd3-tip'
 
 
-
+/*
 const startDate = datepicker("#start-picker", 
 	{ 	id: 1,
 		minDate: new Date(2017, 1, 1),
@@ -43,7 +43,7 @@ const endDate = datepicker("#end-picker",
 		},
 		overlayButton: 'Go!',
 	})
-
+*/
 //startDate.setDate(new Date(2017, 0, 0), true)
 
 //endDate.setDate(new Date(2020, 11, 30), true)
