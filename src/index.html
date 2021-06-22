@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <script src="https://d3js.org/d3.v5.js"></script>
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans:400, 700" rel="stylesheet">
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="Description" content="Code pour le Projet de INF8808.">
+        <title>Projet Équipe #5 | INF8808</title>
+
+        <link rel="stylesheet" href="assets/style.css">
+
+      </head>
+
+      <script src="https://d3js.org/d3.v4.js"></script>
+      <body>
+        
+        <header>
+            <h1>
+              Most popular Artists on Spotify
+            </h1>
+            <h2>
+              In countries around the world
+            </h2>
+        </header>
+        <div class = "dates">
+          <span>      
+            <div id = "start-picker" class = "btn">Start Date</div> 
+            <br>
+            <div id = "startDate" > </div>
+          </span> 
+          <span >
+            <div id = "end-picker" class = "btn">End Date</div>
+            <div id = "endDate"> </div>
+          </span>
+        </div>
+        <div class="dropdown">
+          <div id="myDropdown" class="dropdown-content">
+            <input type="text" placeholder="Search.." id="myInput" onkeyup="filterFunction()">
+          </div>
+        </div>
+        <script type="module" src="index.js"></script>
+        <!--
+        <main>
+          <div class='graph'>
+            <svg id='rank-chart'>
+            </svg>
+          </div>
+        </main>
+        -->
+        <!-- Create a div where the graph will take place -->
+      </body>
+</html>
+
