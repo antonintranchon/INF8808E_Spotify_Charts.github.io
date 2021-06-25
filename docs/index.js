@@ -1,4 +1,5 @@
 'use strict'
+console.log("debut du js")
 import * as helper from './scripts/helper.js'
 import * as scales from './scripts/scales.js'
 import * as viz from './scripts/viz.js'
@@ -7,6 +8,8 @@ import * as legend from './scripts/legend.js'
 import * as preproc from './scripts/preprocess.js'
 //import datepicker from 'js-datepicker'
 import d3Tip from 'd3-tip'
+
+console.log("fin des import")
 
 
 /*
