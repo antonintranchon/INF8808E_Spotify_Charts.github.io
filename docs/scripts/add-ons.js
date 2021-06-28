@@ -1,6 +1,7 @@
 
 //import { timeYear, utcYear } from 'd3';
-//import datepicker from 'js-datepicker'
+import datepicker from 'js-datepicker'
+console.log("Import datepicker done")
 
 var end_date, begin_date;
 /**
