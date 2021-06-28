@@ -1,6 +1,6 @@
 
-import * as preproc from './preprocess'
-import * as addon from './add-ons'
+//import * as preproc from './preprocess'
+//import * as addon from './add-ons'
 
 var bumpRadius = 13
 var padding = 25
