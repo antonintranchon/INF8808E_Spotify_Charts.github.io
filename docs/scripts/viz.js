@@ -1,6 +1,6 @@
 
-//import * as preproc from './preprocess'
-//import * as addon from './add-ons'
+import * as preproc from './preprocess'
+import * as addon from './add-ons'
 
 var bumpRadius = 13
 var padding = 25
@@ -12,7 +12,7 @@ var width, height;
 export function setSize(territories, quarters){
   
   width = quarters.length * 150
-  height = 20 * 40
+  height = territories.length * 40
 }
 
 export function setScales(){
@@ -36,8 +36,8 @@ function seq(start, length){ return Array.apply(null, {length: length}).map((d, 
 
 export function viz(rows, columns, matrix, streams, view){
 
-  var ranking = matrix.map((d, i) => ({territory: rows[i], first: d[0].rank, last: d[columns.length - 1].rank}));
-  ranking = ranking.slice(0, 20);
+  var ranking = matrix.map((d, i) => ({artist: rows[i], first: d[0].rank, last: d[columns.length - 1].rank}));
+  //ranking = ranking.slice(0, 20);
 
 	bx.domain(seq(0, columns.length))
 
@@ -49,7 +49,9 @@ export function viz(rows, columns, matrix, streams, view){
 	var color = d3.scaleOrdinal(d3.schemeTableau10)
 	.domain(seq(0, ranking.length))
 
-	var right = ranking.sort((a, b) => a.last - b.last).map((d) => d.territory);
+	var right = ranking.sort((a, b) => a.last - b.last).map((d) => d.artist);
+  console.log(ranking)
+  console.log(right)
 
 
 	var svg = d3.select("body").append("svg")
@@ -95,29 +97,30 @@ export function viz(rows, columns, matrix, streams, view){
 
 	function hover(g) { 
 		g.append("title")
-		.text((d, i) => {return `${d.territory} - ${ columns[i]}\nRank: ${d.profit.rank + 1}\nStreams: ${d.profit.stream}`})
+		.text((d, i) => {return `${d.artist} - ${ columns[i]}\nRank: ${d.profit.rank + 1}\nStreams: ${d.profit.stream}`})
 	}
 
-
+var max = new Array(columns.length).fill(0);
 	const bumps = series.selectAll("g")
-		.data((d, i) => d.map(v => ({territory: rows[i], profit: v, first: d[0].rank})))
+		.data((d, i) => d.map(v => ({artist: rows[i], profit: v, first: d[0].rank})))
 		.enter().append("g")
 		.attr("transform", (d, i) => `translate(${bx(i)},${by(d.profit.rank)})`)
-    .attr("opacity", d=> {if (d.profit.stream == 0) return "0";
-                          else return "1"; })
+    .attr("opacity", (d, i)=> { if (d.profit.stream > max[i]) max[i] = d.profit.stream;
+      return (d.profit.stream == 0)? "0": "1"; })
 		.call(hover)
 		.on("click", function(d){
       view = "artist"; 
       preproc.getDataFinal(addon.getBeginDate(), addon.getEndDate());
-      console.log(d.territory)
+      console.log(d.artist)
     })
-		//.on("mouseover", function(d){bumps.selectAll("circle") = "artist"; console.log(d.territory)});;
+		//.on("mouseover", function(d){bumps.selectAll("circle") = "artist"; console.log(d.artist)});;
 	
-	bumps.append("circle").attr("r", d => {
-    var max = 15000;
+	bumps.append("circle").attr("r", (d, i) => {
+    //console.log(d, i)
+    //var max = streams[i]/ranking.length/100;
       //console.log(d.profit)
-			return view == "main"? bumpRadius:
-			d.profit.stream/max*bumpRadius
+
+			return /*view == "main"? bumpRadius: */Math.max(d.profit.stream/max[i]*3*bumpRadius, bumpRadius/3)
 		});
 	bumps.append("text")
 		.attr("dy",  "0.35em")
@@ -125,7 +128,7 @@ export function viz(rows, columns, matrix, streams, view){
 		.attr("stroke", "white")
 		.attr("text-anchor", "middle")    
 		.style("font-weight", "bold") 
-		.style("font-size", "100%")
+		.style("font-size", (d, i) => Math.max(d.profit.stream/max[i]*2*bumpRadius, bumpRadius/3))
 		.style("text-shadow", "none")
 		.style("opacity", d=> {if (d.profit.stream == 0) return "0";
                           else return 1; })
@@ -188,49 +191,49 @@ export function viz(rows, columns, matrix, streams, view){
 
 
 
-// var   margin = {top: 20, right: 20, bottom: 30, left: 40},
- //   width = +svg.attr("width") - margin.left - margin.right,
-  //  height = +svg.attr("height") - margin.top - margin.bottom;
+// // var   margin = {top: 20, right: 20, bottom: 30, left: 40},
+//  //   width = +svg.attr("width") - margin.left - margin.right,
+//   //  height = +svg.attr("height") - margin.top - margin.bottom;
 
-var xi = d3.scaleBand().rangeRound([0, width/1.35]).padding(0.1),
-    yi = d3.scaleLinear().rangeRound([height/7, 0]);
+// var xi = d3.scaleBand().rangeRound([0, width/1.35]).padding(0.1),
+//     yi = d3.scaleLinear().rangeRound([height/7, 0]);
 
-var g = svg.append("g")
-    .attr("transform", "translate(" + margin.left + "," + 520 + ")")
-    .attr("class", "bar");
+// var g = svg.append("g")
+//     .attr("transform", "translate(" + margin.left + "," + 520 + ")")
+//     .attr("class", "bar");
 
 
-  xi.domain(streams.sort());
-  yi.domain(streams.sort());
-/*
-  g.append("g")
-      .attr("class", "axis axis--x")
-      .attr("transform", "translate(0," + height/5 + ")")
-      .call(d3.axisBottom(x));
+//   xi.domain(streams.sort());
+//   yi.domain(streams.sort());
+// /*
+//   g.append("g")
+//       .attr("class", "axis axis--x")
+//       .attr("transform", "translate(0," + height/5 + ")")
+//       .call(d3.axisBottom(x));
 
-  g.append("g")
-      .attr("class", "axis axis--y")
-      .call(d3.axisLeft(y).ticks(10, "%"))
-    .append("text")
-      .attr("transform", "rotate(-90)")
-      .attr("y", 6)
-      .attr("dy", "0.71em")
-      .attr("text-anchor", "end")
-      .text("Frequency");
-*/
-  g.selectAll(".bar")
-    //.data(seq(0, streams.length))
-    .data(streams)
-    .enter().append("rect")
-      .attr("class", "bar")
-      .attr("x", function(d) {
-        /* console.log("streams = ", streams, "d =", d, " xi(d) = ",xi(d), " yi(d) = ", yi(d), "height =", height );*/ 
-        return xi(d);
-      })
-      .attr("y", function(d) { yi(d) })
-      .attr("width", xi.bandwidth())
-      .attr("height", function(d) { return height/7 - yi(d); })
-      .attr("fill", "green");
+//   g.append("g")
+//       .attr("class", "axis axis--y")
+//       .call(d3.axisLeft(y).ticks(10, "%"))
+//     .append("text")
+//       .attr("transform", "rotate(-90)")
+//       .attr("y", 6)
+//       .attr("dy", "0.71em")
+//       .attr("text-anchor", "end")
+//       .text("Frequency");
+// */
+//   g.selectAll(".bar")
+//     //.data(seq(0, streams.length))
+//     .data(streams)
+//     .enter().append("rect")
+//       .attr("class", "bar")
+//       .attr("x", function(d) {
+//         /* console.log("streams = ", streams, "d =", d, " xi(d) = ",xi(d), " yi(d) = ", yi(d), "height =", height );*/ 
+//         return xi(d);
+//       })
+//       .attr("y", function(d) { yi(d) })
+//       .attr("width", xi.bandwidth())
+//       .attr("height", function(d) { return height/7 - yi(d); })
+//       .attr("fill", "green");
 
 }
 

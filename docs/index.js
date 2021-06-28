@@ -1,34 +1,29 @@
 'use strict'
-console.log("Import helper")
 import * as helper from './scripts/helper.js'
-console.log("Import scales")
 import * as scales from './scripts/scales.js'
-console.log("Import viz")
 import * as viz from './scripts/viz.js'
-console.log("Import tooltip")
 import * as tooltip from './scripts/tooltip.js'
-console.log("Import legend")
 import * as legend from './scripts/legend.js'
-console.log("Import preprocess")
 import * as preproc from './scripts/preprocess.js'
-console.log("Import add-ons")
 import * as addons from './scripts/add-ons.js'
-//import d3Tip from 'd3-tip'
-console.log("all imports are done")
+import d3Tip from 'd3-tip'
 
-
-addons.generateCalendars();
+addons.setRegion("Anglophone")
 addons.setBeginDate('2017-01-01');
-addons.setEndDate('2020-01-31');
+addons.setEndDate('2017-01-31');
+addons.generateCalendars();
 
-document.getElementById("na").addEventListener("click",  updateData.bind(this, "AmeriqueNord"));
-document.getElementById("sa").addEventListener("click",  updateData.bind(this, "AmeriqueSud" ));
-document.getElementById("sc").addEventListener("click",  updateData.bind(this, "EuropeNord"));
-document.getElementById("we").addEventListener("click",  updateData.bind(this, "EuropeOuest"));
-document.getElementById("ee").addEventListener("click",  updateData.bind(this, "EuropeEst"));
-document.getElementById("ao").addEventListener("click",  updateData.bind(this, "OceanieAsie"));
-document.getElementById("an").addEventListener("click",  updateData.bind(this, "Anglophone"));
+document.getElementById("na").addEventListener("click",  updateRegion.bind(this, "AmeriqueNord"));
+document.getElementById("sa").addEventListener("click",  updateRegion.bind(this, "AmeriqueSud" ));
+document.getElementById("sc").addEventListener("click",  updateRegion.bind(this, "EuropeNord"));
+document.getElementById("we").addEventListener("click",  updateRegion.bind(this, "EuropeOuest"));
+document.getElementById("ee").addEventListener("click",  updateRegion.bind(this, "EuropeEst"));
+document.getElementById("ao").addEventListener("click",  updateRegion.bind(this, "OceanieAsie"));
+document.getElementById("as").addEventListener("click",  updateRegion.bind(this, "Anglophone"));
+document.getElementById("updater").addEventListener("click",  updateAll.bind(this));
 
+
+updateAll();
 //getData();
 function getData() {
 	d3.csv("data.csv", function(error, data) {
@@ -53,10 +48,12 @@ function getData() {
 	});
 
 }
-
-
-updateData("AmeriqueNord");	
-function updateData(region) {
+function updateAll() {
+	preproc.getDataFinal(addons.getRegion(), addons.getBeginDate(), addons.getEndDate(), 0, "ca");
+}
+	
+function updateRegion(region) {
+	addons.setRegion(region);
 	preproc.getDataFinal(region, addons.getBeginDate(), addons.getEndDate(), 0, "ca");
 }
 

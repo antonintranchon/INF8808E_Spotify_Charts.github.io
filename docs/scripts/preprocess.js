@@ -1,5 +1,5 @@
 
-//import * as viz from './viz'
+import * as viz from './viz'
 const COUNTRIES={
     'ar': 'Argentina', // Amerique Sud
     'at': 'Austria', // Europe 
@@ -150,7 +150,7 @@ export function getData(data_){
     var Pays = {};
     var compteur = 0;
     data_.forEach((d) => {
-        var dObj = {artist: d.Artist, country: COUNTRIES[d.region].substring(0,3), stream: d.Streams /*.toString()*/};
+        var dObj = {artist: d.Artist, country: COUNTRIES[d.region]/*.substring(0,3)*/, stream: d.Streams /*.toString()*/};
         data.push(dObj);
 
         if (!(d.region in Pays)){

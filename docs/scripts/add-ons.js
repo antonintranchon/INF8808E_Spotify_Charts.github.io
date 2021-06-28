@@ -1,9 +1,18 @@
 
 import { timeYear, utcYear } from 'd3';
 import datepicker from 'js-datepicker'
-console.log("Import datepicker done")
+import * as preproc from './preprocess'
+//import * as datepicker from './datepicker.min.js'
 
 var end_date, begin_date;
+var currentRegion = "Anglophone";
+
+export function setRegion(region) {
+	currentRegion = region;
+}
+export function getRegion() {
+	return currentRegion;
+}
 /**
  * Generates the SVG element g which will contain the data visualisation.
  *
@@ -15,8 +24,8 @@ export function generateCalendars () {
 		minDate: new Date(2017, 1, 1),
 		maxDate: new Date(2020, 11, 29),
 		showAllDates: true,
-		defaultView: 'overlay',
-		overlayPlaceholder: 'Years between 2017-2020',
+		//defaultView: 'overlay',
+		//overlayPlaceholder: 'Years between 2017-2020',
 		dateSelected: new Date(2017, 1, 1),
 		formatter: (input, date, instance) => {
 			// This will display the date as `2019-01-01`.
@@ -25,12 +34,12 @@ export function generateCalendars () {
 			var d = date.getDay().toString();
 			if(m<10){m='0'+m;}
 			if(d<10){d='0'+d;}
-			input.value = y+'-'+m+'-'+d;
+			input.value = y + '-' + m + '-' + d;
 		},
 		onSelect: instance => {
-			console.log("Range " + instance.dateSelected);
+			console.log(document.getElementById("start-picker").value) 
 			document.getElementById("startDate").innerHTML = instance.dateSelected.toDateString();
-			setBeginDate(instance.dateSelected);
+			setBeginDate(document.getElementById("start-picker").value);
 		},
 	})
 	var x=new Date(2019,1,1);
@@ -40,12 +49,13 @@ const endDate = datepicker("#end-picker",
 		minDate: new Date(2017, 1, 1),
 		maxDate: new Date(2020, 11, 29),
 		showAllDates: true,
-		defaultView: 'overlay',
-		overlayPlaceholder: 'Years between 2017-2020',
-		dateSelected: new Date(2017, 2, 1),
+		//defaultView: 'overlay',
+		//overlayPlaceholder: 'Years between 2017-2020',
+		dateSelected: new Date(2017, 1, 31),
 		onSelect: instance => {
-			console.log("Range " + instance.dateSelected) 
+			console.log(document.getElementById("end-picker").value) 
 			document.getElementById("endDate").innerHTML = instance.dateSelected.toDateString();
+			setEndDate(document.getElementById("end-picker").value);
 		},
 		formatter: (input, date, instance) => {
 			// This will display the date as `2019-01-01`.
@@ -55,7 +65,7 @@ const endDate = datepicker("#end-picker",
 			if(m<10){m='0'+m;}
 			if(d<10){d='0'+d;}
 			input.value = y+'-'+m+'-'+d;
-			setEndDate(instance.dateSelected);
+			//(instance.dateSelected);
 		},
 		overlayButton: 'Go!',
 	})
