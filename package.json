@@ -1,4 +1,5 @@
 {
+  "homepage": "https://antonintranchon.github.io/INF8808E_Spotify_Charts.github.io/",
   "name": "projet",
   "version": "1.0.0",
   "description": "Projet pour le cours INF8808E.",
@@ -6,7 +7,9 @@
   "scripts": {
     "build": "parcel build ./docs/index.html",
     "start": "parcel ./docs/index.html --log-level=2 --port=8080",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build"
   },
   "author": "Equipe 5",
   "license": "UNLICENSED",
@@ -26,7 +29,8 @@
     "eslint-plugin-jsdoc": "^29.1.0",
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-promise": "^4.2.1",
-    "eslint-plugin-standard": "^4.0.1"
+    "eslint-plugin-standard": "^4.0.1",
+    "gh-pages": "^3.2.3"
   },
   "staticFiles": {
     "staticPath": [
