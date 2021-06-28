@@ -1,9 +1,9 @@
-
 import * as preproc from './preprocess.js'
 import * as addon from './add-ons.js'
 
 var bumpRadius = 13
 var padding = 25
+var artistNo = 25;
 var margin = ({left: 105, right: 105, top: 20, bottom: 50})
 var bx, by, ax, y;
 var width, height;
@@ -12,7 +12,8 @@ var width, height;
 export function setSize(territories, quarters){
   
   width = quarters.length * 150
-  height = territories.length * 40
+  //height = territories.length * 40
+  height = artistNo * 40
 }
 
 export function setScales(){
@@ -36,9 +37,17 @@ function seq(start, length){ return Array.apply(null, {length: length}).map((d, 
 
 export function viz(rows, columns, matrix, streams, view){
 
-  var ranking = matrix.map((d, i) => ({artist: rows[i], first: d[0].rank, last: d[columns.length - 1].rank}));
-  //ranking = ranking.slice(0, 20);
+  var ranking = [];
+  for (let i = 0; i < matrix.length; i++) {
+    //console.log( matrix[i][columns.length - 1].rank)
+    if (matrix[i][columns.length - 1].rank < artistNo)
+      ranking.push({artist: rows[i], first: matrix[i][0].rank, last: matrix[i][columns.length - 1].rank})
+    
+  }
 
+  // var ranking = matrix.map((d, i) => ({artist: rows[i], first: d[0].rank, last: d[columns.length - 1].rank}));
+  //ranking = ranking.slice(0, 50);
+console.log(ranking)
 	bx.domain(seq(0, columns.length))
 
 	by.domain(seq(0, ranking.length))
@@ -68,7 +77,7 @@ export function viz(rows, columns, matrix, streams, view){
 		.attr("stroke", "#ccc")
 		.attr("stroke-width", 2)
 		.attr("stroke-dasharray", "5,5")
-		.attr("d", d => d3.line()([[bx(d), 0], [bx(d), height - margin.bottom]]))
+		.attr("d", d => { d3.line()([[bx(d), 0], [bx(d), height - margin.bottom]])})
 	
 	const series = svg.selectAll(".series")
 		.data(matrix)
@@ -90,8 +99,10 @@ export function viz(rows, columns, matrix, streams, view){
 		.enter().append("path")
 		.attr("stroke-width", 5)
 		.attr("d", (d, i) => { 
-		if (d.next) 
-			return d3.line()([[bx(i), by(d.rank)], [bx(i + 1), by(d.next.rank)]]);
+      if (d.next && d.rank < artistNo && d.next.rank < artistNo) {
+        //console.log(d)
+        return d3.line()([[bx(i), by(d.rank)], [bx(i + 1), by(d.next.rank)]]);
+      }
     });
 
 
@@ -102,9 +113,21 @@ export function viz(rows, columns, matrix, streams, view){
 
 var max = new Array(columns.length).fill(0);
 	const bumps = series.selectAll("g")
-		.data((d, i) => d.map(v => ({artist: rows[i], profit: v, first: d[0].rank})))
+		.data((d, i) => {
+      /*
+      var selected = [];
+      for (let j = 0; j < d.length; j++) {
+        //console.log(d[j])
+        if (d[j].rank < artistNo)
+          selected.push({artist: rows[i], profit: d[j], last: d[0].rank})
+        
+      }
+      console.log(selected)
+      return selected;*/
+      return d.map(v => ({artist: rows[i], profit: v, first: d[0].rank}))
+    })
 		.enter().append("g")
-		.attr("transform", (d, i) => `translate(${bx(i)},${by(d.profit.rank)})`)
+		.attr("transform", (d, i) => `translate(${bx(i)},${by(d.profit.rank < artistNo? d.profit.rank: d.profit.rank)})`)
     .attr("opacity", (d, i)=> { if (d.profit.stream > max[i]) max[i] = d.profit.stream;
       return (d.profit.stream == 0)? "0": "1"; })
 		.call(hover)
@@ -119,8 +142,8 @@ var max = new Array(columns.length).fill(0);
     //console.log(d, i)
     //var max = streams[i]/ranking.length/100;
       //console.log(d.profit)
-
-			return /*view == "main"? bumpRadius: */Math.max(d.profit.stream/max[i]*3*bumpRadius, bumpRadius/3)
+      /*view == "main"? bumpRadius: */
+			return Math.max(d.profit.stream/max[i]*2*bumpRadius, bumpRadius/3)
 		});
 	bumps.append("text")
 		.attr("dy",  "0.35em")
@@ -128,7 +151,7 @@ var max = new Array(columns.length).fill(0);
 		.attr("stroke", "white")
 		.attr("text-anchor", "middle")    
 		.style("font-weight", "bold") 
-		.style("font-size", (d, i) => Math.max(d.profit.stream/max[i]*2*bumpRadius, bumpRadius/3))
+		.style("font-size", (d, i) => Math.max(d.profit.stream/max[i]*1.5*bumpRadius, bumpRadius/3))
 		.style("text-shadow", "none")
 		.style("opacity", d=> {if (d.profit.stream == 0) return "0";
                           else return 1; })
@@ -191,49 +214,54 @@ var max = new Array(columns.length).fill(0);
 
 
 
-// // var   margin = {top: 20, right: 20, bottom: 30, left: 40},
-//  //   width = +svg.attr("width") - margin.left - margin.right,
-//   //  height = +svg.attr("height") - margin.top - margin.bottom;
+// var   margin = {top: 20, right: 20, bottom: 30, left: 40},
+ //   width = +svg.attr("width") - margin.left - margin.right,
+  //  height = +svg.attr("height") - margin.top - margin.bottom;
 
-// var xi = d3.scaleBand().rangeRound([0, width/1.35]).padding(0.1),
-//     yi = d3.scaleLinear().rangeRound([height/7, 0]);
+var xi = d3.scaleBand().rangeRound([0, width-padding]).padding(padding),
+    yi = d3.scaleLinear().rangeRound([150, 0]);
 
-// var g = svg.append("g")
-//     .attr("transform", "translate(" + margin.left + "," + 520 + ")")
-//     .attr("class", "bar");
+var g = svg.append("g")
+
+    .attr("transform", `translate(0,${margin.top + height})`)
+    //.attr("transform", "translate(" + margin.left + "," + margin.top - height + ")")
+    .attr("class", "bar");
 
 
-//   xi.domain(streams.sort());
-//   yi.domain(streams.sort());
-// /*
-//   g.append("g")
-//       .attr("class", "axis axis--x")
-//       .attr("transform", "translate(0," + height/5 + ")")
-//       .call(d3.axisBottom(x));
+  xi.domain(streams);
+  yi.domain(streams);
+  console.log(streams)
+  var max = Math.max(...streams);
+/*
+  g.append("g")
+      .attr("class", "axis axis--x")
+      .attr("transform", "translate(0," + height/5 + ")")
+      .call(d3.axisBottom(x));
 
-//   g.append("g")
-//       .attr("class", "axis axis--y")
-//       .call(d3.axisLeft(y).ticks(10, "%"))
-//     .append("text")
-//       .attr("transform", "rotate(-90)")
-//       .attr("y", 6)
-//       .attr("dy", "0.71em")
-//       .attr("text-anchor", "end")
-//       .text("Frequency");
-// */
-//   g.selectAll(".bar")
-//     //.data(seq(0, streams.length))
-//     .data(streams)
-//     .enter().append("rect")
-//       .attr("class", "bar")
-//       .attr("x", function(d) {
-//         /* console.log("streams = ", streams, "d =", d, " xi(d) = ",xi(d), " yi(d) = ", yi(d), "height =", height );*/ 
-//         return xi(d);
-//       })
-//       .attr("y", function(d) { yi(d) })
-//       .attr("width", xi.bandwidth())
-//       .attr("height", function(d) { return height/7 - yi(d); })
-//       .attr("fill", "green");
+  g.append("g")
+      .attr("class", "axis axis--y")
+      .call(d3.axisLeft(y).ticks(10, "%"))
+    .append("text")
+      .attr("transform", "rotate(-90)")
+      .attr("y", 6)
+      .attr("dy", "0.71em")
+      .attr("text-anchor", "end")
+      .text("Frequency");
+*/
+  g.selectAll(".bar")
+    //.data(seq(0, streams.length))
+    .data(streams)
+    .enter().append("rect")
+      .attr("class", "bar")
+      .attr("x", function(d, i) {
+        /* console.log("streams = ", streams, "d =", d, " xi(d) = ",xi(d), " yi(d) = ", yi(d), "height =", height );*/ 
+        //return xi(d);
+        return width/i
+      })
+      .attr("y", function(d) {return yi(d)} )
+      .attr("width", 30)
+      .attr("height", function(d) { return 200 - yi(d) /*d/max*100*/ })
+      .attr("fill", "green");
 
 }
 

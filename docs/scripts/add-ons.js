@@ -1,16 +1,10 @@
 import datepicker from 'js-datepicker'
-//import * as preproc from './preprocess.js'
 //import * as datepicker from './datepicker.min.js'
 
 var end_date, begin_date;
 var currentRegion = "Anglophone";
 
-export function setRegion(region) {
-	currentRegion = region;
-}
-export function getRegion() {
-	return currentRegion;
-}
+
 /**
  * Generates the SVG element g which will contain the data visualisation.
  *
@@ -28,20 +22,20 @@ export function generateCalendars () {
 		formatter: (input, date, instance) => {
 			// This will display the date as `2019-01-01`.
 			var y = date.getFullYear().toString();
-			var m = date.getMonth().toString();
-			var d = date.getDay().toString();
+			var mtemp = date.getMonth();
+			mtemp += 1;
+			var m = mtemp.toString()
+			var d = date.getDate().toString();
 			if(m<10){m='0'+m;}
 			if(d<10){d='0'+d;}
 			input.value = y + '-' + m + '-' + d;
 		},
 		onSelect: instance => {
 			console.log(document.getElementById("start-picker").value) 
-			document.getElementById("startDate").innerHTML = instance.dateSelected.toDateString();
+			//document.getElementById("startDate").innerHTML = instance.dateSelected.toDateString();
 			setBeginDate(document.getElementById("start-picker").value);
 		},
 	})
-	var x=new Date(2019,1,1);
-	console.log(x.getFullYear().toString());
 const endDate = datepicker("#end-picker", 
 	{ 	id: 1,
 		minDate: new Date(2017, 1, 1),
@@ -52,17 +46,19 @@ const endDate = datepicker("#end-picker",
 		dateSelected: new Date(2017, 1, 31),
 		onSelect: instance => {
 			console.log(document.getElementById("end-picker").value) 
-			document.getElementById("endDate").innerHTML = instance.dateSelected.toDateString();
+			//document.getElementById("endDate").innerHTML = instance.dateSelected.toDateString();
 			setEndDate(document.getElementById("end-picker").value);
 		},
 		formatter: (input, date, instance) => {
 			// This will display the date as `2019-01-01`.
 			var y = date.getFullYear().toString();
-			var m = date.getMonth().toString();
-			var d = date.getDay().toString();
+			var mtemp = date.getMonth();
+			mtemp += 1;
+			var m = mtemp.toString()
+			var d = date.getDate().toString();
 			if(m<10){m='0'+m;}
 			if(d<10){d='0'+d;}
-			input.value = y+'-'+m+'-'+d;
+			input.value = y + '-' + m + '-' + d;
 			//(instance.dateSelected);
 		},
 		overlayButton: 'Go!',
@@ -85,6 +81,14 @@ export function filterFunction() {
 	  }
 	}
 }
+
+export function setRegion(region) {
+	currentRegion = region;
+}
+export function getRegion() {
+	return currentRegion;
+}
+
 export function setBeginDate(date) {
 	begin_date = new Date(date)
 }

@@ -1,4 +1,3 @@
-
 import * as viz from './viz.js'
 const COUNTRIES={
     'ar': 'Argentina', // Amerique Sud
