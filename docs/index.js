@@ -6,7 +6,7 @@ import * as tooltip from './scripts/tooltip.js'
 import * as legend from './scripts/legend.js'
 import * as preproc from './scripts/preprocess.js'
 import * as addons from './scripts/add-ons.js'
-import d3Tip from 'd3-tip'
+//import d3Tip from '/node_modules/d3-tip/index.js'
 
 addons.setRegion("Anglophone")
 addons.setBeginDate('2017-01-01');
