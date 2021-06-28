@@ -1,5 +1,4 @@
-
-import datepicker from '../../node-modules/js-datepicker/dist/datepicker.min.js'
+import datepicker from 'https://github.com/antonintranchon/INF8808E_Spotify_Charts.github.io/blob/main/node_modules/js-datepicker/src/datepicker.js'
 //import * as preproc from './preprocess.js'
 //import * as datepicker from './datepicker.min.js'
 
