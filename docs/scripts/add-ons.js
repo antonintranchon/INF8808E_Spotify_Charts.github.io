@@ -1,5 +1,5 @@
 
-import datepicker from '/node-modules/js-datepicker/dist/datepicker.min.js'
+import datepicker from '../../node-modules/js-datepicker/dist/datepicker.min.js'
 //import * as preproc from './preprocess.js'
 //import * as datepicker from './datepicker.min.js'
 
