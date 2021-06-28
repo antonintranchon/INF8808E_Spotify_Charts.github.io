@@ -1,4 +1,4 @@
-import d3Legend from 'd3-svg-legend'
+//import d3Legend from 'd3-svg-legend'
 
 /**
  * Draws the legend.
