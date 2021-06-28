@@ -2,19 +2,22 @@
 <html>
     <head>
         <script src="https://d3js.org/d3.v5.js"></script>
+        <script type="module" src="index.js"></script>
         <link href="https://fonts.googleapis.com/css?family=Open+Sans:400, 700" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta name="Description" content="Code pour le Projet de INF8808.">
         <title>Projet Équipe #5 | INF8808</title>
 
         <link rel="stylesheet" href="assets/style.css">
+        
 
       </head>
 
       <script src="https://d3js.org/d3.v4.js"></script>
       <body>
-        
         <header>
             <h1>
               Most popular Artists on Spotify
@@ -23,23 +26,67 @@
               In countries around the world
             </h2>
         </header>
-        <div class = "dates">
+        
+
+        <div class = "dates" >
           <span>      
-            <div id = "start-picker" class = "btn">Start Date</div> 
+            <div id = "start-picker" class = "btndate">Start Date</div> 
             <br>
-            <div id = "startDate" > </div>
+            <div id = "startDate"> </div>
           </span> 
-          <span >
-            <div id = "end-picker" class = "btn">End Date</div>
+          <span>
+            <div id = "end-picker" class = "btndate">End Date</div>
             <div id = "endDate"> </div>
           </span>
+          <span> 
+            <div class="dropdown" style="margin-top: 0.3em; margin-left: 5em;">
+              <div id="myDropdown" class="dropdown-content" style="text-align: center; font-family: 'Open Sans';">
+                <input class="myInput" type="text" placeholder="Search country" id="countryInput" onkeyup="updateData()">
+              </div>
+            </div>     
+          </span>
+          <span> 
+            <div class="dropdown" style="margin-top: 0.3em; margin-left: 5em;">
+              <div id="myDropdown" class="dropdown-content" style="text-align: center; font-family: 'Open Sans';">
+                <input class="myInput" type="text" placeholder="Search artist" id="artistInput" onkeyup="updateData()">
+              </div>
+            </div>     
+          </span>
         </div>
-        <div class="dropdown">
-          <div id="myDropdown" class="dropdown-content">
-            <input type="text" placeholder="Search.." id="myInput" onkeyup="filterFunction()">
-          </div>
+        <div style="margin-top:1em; margin-left: 7%;"> 
+          Filter by continent:
+          <input class="btn" 
+          id = 'na'        
+          type="button" 
+          value="North America"  />
+          <input class="btn" 
+          id = 'sa'  
+          type="button" 
+          value="South America"  />
+          <input class="btn"
+          id = 'sc'  
+          type="button" 
+          value="Northern Europe"  />
+          <input class="btn" 
+          id = 'we'   
+          type="button" 
+          value="Western Europe"  />
+          <input class="btn"
+          id = 'ee'  
+          type="button" 
+          value="Eastern Europe"  />
+          <input class="btn" 
+          id = 'ao'  
+          type="button" 
+          value="Asia/Ocenia" />
+          <input class="btn"
+          id = 'an'  
+          type="button" 
+          value="Anglophone"  />
         </div>
-        <script type="text/javascript" src="index.js"></script>
+
+        
+
         <!--
         <main>
           <div class='graph'>
