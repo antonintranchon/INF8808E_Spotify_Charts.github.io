@@ -1,4 +1,4 @@
-import datepicker from '../datepicker.js'
+import datepicker from 'js-datepicker'
 //import * as preproc from './preprocess.js'
 //import * as datepicker from './datepicker.min.js'
 
