@@ -1,6 +1,6 @@
 
-import { timeYear, utcYear } from 'd3';
-import datepicker from 'js-datepicker'
+import { timeYear, utcYear } from '/node-modules/d3/dist/d3.js';
+import datepicker from '/node-modules/js-datepicker/dist/datepicker.min.js'
 import * as preproc from './preprocess'
 //import * as datepicker from './datepicker.min.js'
 
