@@ -1,12 +1,20 @@
 'use strict'
+console.log("Import helper")
 import * as helper from './scripts/helper.js'
+console.log("Import scales")
 import * as scales from './scripts/scales.js'
+console.log("Import viz")
 import * as viz from './scripts/viz.js'
+console.log("Import tooltip")
 import * as tooltip from './scripts/tooltip.js'
+console.log("Import legend")
 import * as legend from './scripts/legend.js'
+console.log("Import preprocess")
 import * as preproc from './scripts/preprocess.js'
+console.log("Import add-ons")
 import * as addons from './scripts/add-ons.js'
 //import d3Tip from 'd3-tip'
+console.log("all imports are done")
 
 
 addons.generateCalendars();
