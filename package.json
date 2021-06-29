@@ -5,7 +5,7 @@
   "main": "docs/index.js",
   "scripts": {
     "build": "parcel build ./docs/index.html",
-    "start": "parcel ./docs/index.html --log-level=2 --port=8080",
+    "start": "node ./docs/index.html",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Equipe 5",
