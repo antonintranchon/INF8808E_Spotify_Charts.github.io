@@ -93,7 +93,7 @@ export function getName(abrev){
  export function getDataFinal(region, begin_date, end_date, max) {
   console.log(region + ".csv")
    d3.select('svg').selectAll('*').remove();
-	d3.csv("/docs/assets/data/"+ region + ".csv", function(error, data) {
+	d3.csv("./assets/data/"+ region + ".csv", function(error, data) {
 		if (error) throw error;
 		//--------------------Preprocess
 		//Recuperer les dates dans le calendrier avant 
