@@ -2,7 +2,7 @@
 
 var bumpRadius = 13
 var padding = 25
-var artistNo = 20;
+var artistNo;
 var margin = ({left: 105, right: 120, top: 70, bottom: 50})
 var bx, by, ax, y;
 var width, height;
@@ -105,7 +105,7 @@ var max = new Array(columns.length).fill(0);
 		.enter().append("g")
 		.attr("transform", (d, i) => `translate(${bx(i)},${by(d.profit.rank < artistNo? d.profit.rank: artistNo+1)})`)
     .attr("opacity", (d, i)=> { if (d.profit.stream > max[i]) max[i] = d.profit.stream;
-      return (d.profit.stream == 0 || d.profit.rank > artistNo)? "0": "1"; })
+      return (d.profit.stream == 0 || d.profit.rank >= artistNo)? "0": "1"; })
 		.call(hover)
 		.on("click", function(d){
       console.log(d.artist)
@@ -133,12 +133,12 @@ var max = new Array(columns.length).fill(0);
 	
   var ap = topX.selectAll(".tick text")
     .on("mouseover", function(d){
-    d3.select(this).attr("font-weight", "bold")
-    d3.select(this).style("stroke", "black")
+      d3.select(this).attr("font-weight", "bold")
+      d3.select(this).style("stroke", "black")
     })
     .on("mouseout", function(d){
-    ap.attr("font-weight", "normal")
-    ap.style("stroke", "none")
+      ap.attr("font-weight", "normal")
+      ap.style("stroke", "none")
     })
     .on("click", function(d){
       view = "country";
@@ -155,7 +155,6 @@ var max = new Array(columns.length).fill(0);
     aq.style("stroke", "none")
     })
     .on("click", function(d){
-      view = "country";
       console.log(d);
     })
 	
