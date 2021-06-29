@@ -1,4 +1,7 @@
-import datepicker from 'js-datepicker'
+
+//import { timeYear, utcYear } from "https://d3js.org/d3.v5.js";
+//import datepicker from "https://unpkg.com/js-datepicker/dist/datepicker.min.js"
+import * as preproc from './preprocess.js'
 //import * as datepicker from './datepicker.min.js'
 
 var end_date, begin_date;
@@ -45,9 +48,11 @@ const endDate = datepicker("#end-picker",
 		//overlayPlaceholder: 'Years between 2017-2020',
 		dateSelected: new Date(2017, 1, 31),
 		onSelect: instance => {
-			console.log(document.getElementById("end-picker").value) 
+			var date = document.getElementById("end-picker").value
+			console.log(date);
 			//document.getElementById("endDate").innerHTML = instance.dateSelected.toDateString();
-			setEndDate(document.getElementById("end-picker").value);
+			setEndDate(date);
+			preproc.getDataFinal(getRegion(), getBeginDate(), new Date(date), 0, "ca");
 		},
 		formatter: (input, date, instance) => {
 			// This will display the date as `2019-01-01`.

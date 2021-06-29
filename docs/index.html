@@ -2,6 +2,7 @@
 <html>
     <head>
         <script src="https://d3js.org/d3.v5.js"></script>
+        <script src="https://unpkg.com/js-datepicker"></script>
         <script type="module" src="index.js"></script>
         <link href="https://fonts.googleapis.com/css?family=Open+Sans:400, 700" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
@@ -28,7 +29,7 @@
         </header>
         
 
-        <h3> Pick date range</h3>
+        <h3 style = "position: relative; left: 35px"> Pick Date Range</h3>
         <div class = "dates" >
           
           <span>      
@@ -40,9 +41,12 @@
             <input id = "end-picker" class = "btndate"/>
             <div id = "endDate"> </div>
           </span>
+          <!--
           <span>
             <div id = "updater" class = "btndate">Update</div>
           </span>
+          -->
+          <!--
           <span> 
             <div class="dropdown" style="margin-top: 0.3em; margin-left: 5em;">
               <div id="myDropdown" class="dropdown-content" style="text-align: center; font-family: 'Open Sans';">
@@ -57,50 +61,47 @@
               </div>
             </div>     
           </span>
+          -->
         </div>
-        <h3> Filter by continent:</h3>
+        <h3 style = "position: relative; left: 35px"> Select Region:</h3>
         <div style="margin-top:1em; margin-left: 7%;"> 
-          <input class="btn" 
-          id = 'na'        
+          <input class=" btn chosen "
+          id = 'Anglophone'  
           type="button" 
-          value="North America"  />
+          value="Anglosphere"  />
           <input class="btn" 
-          id = 'sa'  
+          id = 'AmeriqueNord'        
+          type="button" 
+          value="Central America"  />
+          <input class="btn" 
+          id = 'AmeriqueSud'  
           type="button" 
           value="South America"  />
           <input class="btn"
-          id = 'sc'  
+          id = 'EuropeNord'  
           type="button" 
           value="Northern Europe"  />
           <input class="btn" 
-          id = 'we'   
+          id = 'EuropeOuest'   
           type="button" 
           value="Western Europe"  />
           <input class="btn"
-          id = 'ee'  
+          id = 'EuropeEst'  
           type="button" 
           value="Eastern Europe"  />
           <input class="btn" 
-          id = 'ao'  
+          id = 'OceanieAsie'  
           type="button" 
           value="Asia/Ocenia" />
-          <input class="btn"
-          id = 'as'  
-          type="button" 
-          value="Anglosphere"  />
         </div>
 
         
 
-        <!--
-        <main>
-          <div class='graph'>
-            <svg id='rank-chart'>
-            </svg>
-          </div>
-        </main>
-        -->
-        <!-- Create a div where the graph will take place -->
+        
+        <div class='graph'>
+          <svg id='rank-chart'>
+          </svg>
+        </div>
       </body>
 </html>
 

@@ -8,14 +8,14 @@ addons.setBeginDate('2017-01-01');
 addons.setEndDate('2017-01-31');
 addons.generateCalendars();
 
-document.getElementById("na").addEventListener("click",  updateRegion.bind(this, "AmeriqueNord"));
-document.getElementById("sa").addEventListener("click",  updateRegion.bind(this, "AmeriqueSud" ));
-document.getElementById("sc").addEventListener("click",  updateRegion.bind(this, "EuropeNord"));
-document.getElementById("we").addEventListener("click",  updateRegion.bind(this, "EuropeOuest"));
-document.getElementById("ee").addEventListener("click",  updateRegion.bind(this, "EuropeEst"));
-document.getElementById("ao").addEventListener("click",  updateRegion.bind(this, "OceanieAsie"));
-document.getElementById("as").addEventListener("click",  updateRegion.bind(this, "Anglophone"));
-document.getElementById("updater").addEventListener("click",  updateAll.bind(this));
+document.getElementById("AmeriqueNord").addEventListener("click",  updateRegion.bind(this, "AmeriqueNord"));
+document.getElementById("AmeriqueSud").addEventListener("click",  updateRegion.bind(this, "AmeriqueSud" ));
+document.getElementById("EuropeNord").addEventListener("click",  updateRegion.bind(this, "EuropeNord"));
+document.getElementById("EuropeOuest").addEventListener("click",  updateRegion.bind(this, "EuropeOuest"));
+document.getElementById("EuropeEst").addEventListener("click",  updateRegion.bind(this, "EuropeEst"));
+document.getElementById("OceanieAsie").addEventListener("click",  updateRegion.bind(this, "OceanieAsie"));
+document.getElementById("Anglophone").addEventListener("click",  updateRegion.bind(this, "Anglophone"));
+//document.getElementById("updater").addEventListener("click",  updateAll.bind(this));
 
 
 updateAll();
@@ -48,6 +48,9 @@ function updateAll() {
 }
 	
 function updateRegion(region) {
+	var clicked = document.getElementsByClassName("chosen");
+	while (clicked.length) clicked[0].classList.remove("chosen");
+	document.getElementById(region).classList.add("chosen")
 	addons.setRegion(region);
 	preproc.getDataFinal(region, addons.getBeginDate(), addons.getEndDate(), 0, "ca");
 }

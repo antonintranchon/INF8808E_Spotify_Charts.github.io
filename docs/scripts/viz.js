@@ -1,10 +1,11 @@
+
 import * as preproc from './preprocess.js'
 import * as addon from './add-ons.js'
 
 var bumpRadius = 13
 var padding = 25
 var artistNo = 25;
-var margin = ({left: 105, right: 105, top: 20, bottom: 50})
+var margin = ({left: 105, right: 120, top: 70, bottom: 50})
 var bx, by, ax, y;
 var width, height;
 
@@ -47,7 +48,7 @@ export function viz(rows, columns, matrix, streams, view){
 
   // var ranking = matrix.map((d, i) => ({artist: rows[i], first: d[0].rank, last: d[columns.length - 1].rank}));
   //ranking = ranking.slice(0, 50);
-console.log(ranking)
+//console.log(ranking)
 	bx.domain(seq(0, columns.length))
 
 	by.domain(seq(0, ranking.length))
@@ -59,18 +60,19 @@ console.log(ranking)
 	.domain(seq(0, ranking.length))
 
 	var right = ranking.sort((a, b) => a.last - b.last).map((d) => d.artist);
-  console.log(ranking)
-  console.log(right)
+  //console.log(ranking)
+  //console.log(right)
 
 
-	var svg = d3.select("body").append("svg")
-		.attr("cursor", "default")
-		.attr("viewBox", [0, 0, width, height*2]);
-  //var svg = d3.select('svg');
+	//var svg = d3.select("body").append("svg")
+		//.attr("cursor", "default")
+  var svg = d3.select('svg')
+  .attr("viewBox", [0, 0, width, height*2])
+  .style("width", "75%");
 	
   svg.transition();
 	svg.append("g")
-		.attr("transform", `translate(${margin.left + padding},0)`)
+		.attr("transform", `translate(${margin.left + padding},${margin.top})`)
 		.selectAll("path")
 		.data(seq(0, columns.length))
 		.enter().append("path")
@@ -127,13 +129,13 @@ var max = new Array(columns.length).fill(0);
       return d.map(v => ({artist: rows[i], profit: v, first: d[0].rank}))
     })
 		.enter().append("g")
-		.attr("transform", (d, i) => `translate(${bx(i)},${by(d.profit.rank < artistNo? d.profit.rank: d.profit.rank)})`)
+		.attr("transform", (d, i) => `translate(${bx(i)},${by(d.profit.rank < artistNo? d.profit.rank: 21)})`)
     .attr("opacity", (d, i)=> { if (d.profit.stream > max[i]) max[i] = d.profit.stream;
-      return (d.profit.stream == 0)? "0": "1"; })
+      return (d.profit.stream == 0 || d.profit.rank > artistNo)? "0": "1"; })
 		.call(hover)
 		.on("click", function(d){
       view = "artist"; 
-      preproc.getDataFinal(addon.getBeginDate(), addon.getEndDate());
+      //preproc.getDataFinal(addon.getBeginDate(), addon.getEndDate());
       console.log(d.artist)
     })
 		//.on("mouseover", function(d){bumps.selectAll("circle") = "artist"; console.log(d.artist)});;
@@ -157,7 +159,8 @@ var max = new Array(columns.length).fill(0);
                           else return 1; })
 		.text(d => view == "main"? d.profit.rank + 1: "");   
 	
-	const topX = svg.append("g").call(g => drawAxis(g, 0, height - margin.top - margin.bottom + padding, d3.axisBottom(ax), true));
+  const bottomX = svg.append("g").call(g => drawAxis(g, 0, 35, d3.axisTop(ax), true));
+	const topX = svg.append("g").call(g => drawAxis(g, 0, height- margin.bottom , d3.axisBottom(ax), true));
 	//const leftY = svg.append("g").call(g => drawAxis(g, margin.left, 0, d3.axisLeft(y.domain(left))));
 	const rightY = svg.append("g").call(g => drawAxis(g, width - margin.right, 0, d3.axisRight(y.domain(right))));
 	
@@ -175,7 +178,7 @@ var max = new Array(columns.length).fill(0);
     .on("click", function(d){
       view = "country";
       console.log(d);
-      preproc.getDataFinal(addon.getBeginDate(), addon.getEndDate());
+      //preproc.getDataFinal(addon.getBeginDate(), addon.getEndDate());
     })
 	
 	
@@ -218,50 +221,50 @@ var max = new Array(columns.length).fill(0);
  //   width = +svg.attr("width") - margin.left - margin.right,
   //  height = +svg.attr("height") - margin.top - margin.bottom;
 
-var xi = d3.scaleBand().rangeRound([0, width-padding]).padding(padding),
-    yi = d3.scaleLinear().rangeRound([150, 0]);
+// var xi = d3.scaleBand().rangeRound([0, width-padding]).padding(padding),
+//     yi = d3.scaleLinear().rangeRound([150, 0]);
 
-var g = svg.append("g")
+// var g = svg.append("g")
 
-    .attr("transform", `translate(0,${margin.top + height})`)
-    //.attr("transform", "translate(" + margin.left + "," + margin.top - height + ")")
-    .attr("class", "bar");
+//     .attr("transform", `translate(0,${margin.top + height})`)
+//     //.attr("transform", "translate(" + margin.left + "," + margin.top - height + ")")
+//     .attr("class", "bar");
 
 
-  xi.domain(streams);
-  yi.domain(streams);
-  console.log(streams)
-  var max = Math.max(...streams);
-/*
-  g.append("g")
-      .attr("class", "axis axis--x")
-      .attr("transform", "translate(0," + height/5 + ")")
-      .call(d3.axisBottom(x));
+//   xi.domain(streams);
+//   yi.domain(streams);
+//   console.log(streams)
+//   var max = Math.max(...streams);
+// /*
+//   g.append("g")
+//       .attr("class", "axis axis--x")
+//       .attr("transform", "translate(0," + height/5 + ")")
+//       .call(d3.axisBottom(x));
 
-  g.append("g")
-      .attr("class", "axis axis--y")
-      .call(d3.axisLeft(y).ticks(10, "%"))
-    .append("text")
-      .attr("transform", "rotate(-90)")
-      .attr("y", 6)
-      .attr("dy", "0.71em")
-      .attr("text-anchor", "end")
-      .text("Frequency");
-*/
-  g.selectAll(".bar")
-    //.data(seq(0, streams.length))
-    .data(streams)
-    .enter().append("rect")
-      .attr("class", "bar")
-      .attr("x", function(d, i) {
-        /* console.log("streams = ", streams, "d =", d, " xi(d) = ",xi(d), " yi(d) = ", yi(d), "height =", height );*/ 
-        //return xi(d);
-        return width/i
-      })
-      .attr("y", function(d) {return yi(d)} )
-      .attr("width", 30)
-      .attr("height", function(d) { return 200 - yi(d) /*d/max*100*/ })
-      .attr("fill", "green");
+//   g.append("g")
+//       .attr("class", "axis axis--y")
+//       .call(d3.axisLeft(y).ticks(10, "%"))
+//     .append("text")
+//       .attr("transform", "rotate(-90)")
+//       .attr("y", 6)
+//       .attr("dy", "0.71em")
+//       .attr("text-anchor", "end")
+//       .text("Frequency");
+// */
+//   g.selectAll(".bar")
+//     //.data(seq(0, streams.length))
+//     .data(streams)
+//     .enter().append("rect")
+//       .attr("class", "bar")
+//       .attr("x", function(d, i) {
+//         /* console.log("streams = ", streams, "d =", d, " xi(d) = ",xi(d), " yi(d) = ", yi(d), "height =", height );*/ 
+//         //return xi(d);
+//         return width/i
+//       })
+//       .attr("y", function(d) {return yi(d)} )
+//       .attr("width", 30)
+//       .attr("height", function(d) { return 200 - yi(d) /*d/max*100*/ })
+//       .attr("fill", "green");
 
 }
 
