@@ -98,7 +98,7 @@ export function getName(abrev){
 		//--------------------Preprocess
 		//Recuperer les dates dans le calendrier avant 
 		var arrays = getData(treatFile(data, begin_date, end_date ));
-      console.log("arrays =", arrays)
+     		console.log("clicked arrays =", arrays)
 
 		viz.setSize(max, arrays['y-axis'])
 		viz.setScales()
