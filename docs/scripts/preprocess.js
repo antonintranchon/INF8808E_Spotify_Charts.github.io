@@ -98,6 +98,7 @@ export function getDataFinal(region, begin_date, end_date, type, search) {
 		//--------------------Preprocess
 		//Recuperer les dates dans le calendrier avant 
 		var arrays = getData(treatFile(data, begin_date, end_date, type, search ));
+      console.log(arrays)
 
 		//console.log("les donnees sont : ", arrays)
 
